@@ -8,7 +8,7 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
-  m_EditorHideFlags: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 12004, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Inspector
+  m_Title: Game
   m_RootView: {fileID: 5}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 61
+  controlID: 169
   draggingID: 0
 --- !u!114 &4
 MonoBehaviour:
@@ -196,7 +196,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 41
+  controlID: 149
   draggingID: 0
 --- !u!114 &9
 MonoBehaviour:
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 42
+  controlID: 150
   draggingID: 0
 --- !u!114 &10
 MonoBehaviour:
@@ -249,7 +249,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 50}
   m_MaxSize: {x: 24288, y: 8096}
   vertical: 0
-  controlID: 43
+  controlID: 151
   draggingID: 0
 --- !u!114 &11
 MonoBehaviour:
@@ -403,7 +403,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -216516
+  m_LastSelectedObjectID: 33498
 --- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -656,9 +656,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 3cb2fcff
-      m_LastClickedID: -216516
-      m_ExpandedIDs: 3c96fcff22a5fcff28bbfcff7ebbfcff74cafcff78cbfcff8e6cfeff30fbffff
+      m_SelectedIDs: da820000
+      m_LastClickedID: 33498
+      m_ExpandedIDs: c683ffff627a0000867d0000587e0000528400001a8c0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1077,9 +1077,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 28.348185, y: 82.8654, z: 80.892914}
+    m_Target: {x: 45.871376, y: 70.75238, z: 81.937126}
     speed: 2
-    m_Value: {x: 28.348106, y: 82.865524, z: 80.89275}
+    m_Value: {x: 45.871376, y: 70.75238, z: 81.937126}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1125,13 +1125,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.28542873, y: -0.21107192, z: 0.06467487, w: -0.93266344}
+    m_Target: {x: -0.17187537, y: -0.7233776, z: 0.19442861, w: -0.63988286}
     speed: 2
-    m_Value: {x: -0.2868181, y: -0.21096782, z: 0.064989336, w: -0.93220407}
+    m_Value: {x: -0.17186947, y: -0.72335273, z: 0.19442193, w: -0.63986087}
   m_Size:
-    m_Target: 7.5962095
+    m_Target: 10.6189575
     speed: 2
-    m_Value: 5.9812675
+    m_Value: 10.6189575
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1215,24 +1215,24 @@ MonoBehaviour:
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 132}
-    m_SelectedIDs: 3a820000
-    m_LastClickedID: 33338
-    m_ExpandedIDs: 00000000de810000e08100002682000000ca9a3b
+    scrollPos: {x: 0, y: 84}
+    m_SelectedIDs: cc720000
+    m_LastClickedID: 29388
+    m_ExpandedIDs: 00000000c072000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: skymon-icons-white
-      m_OriginalName: skymon-icons-white
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 40200
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 13}
     m_SearchString: 
@@ -1246,7 +1246,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000de810000e0810000
+    m_ExpandedIDs: 00000000c072000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

@@ -67,7 +67,7 @@
     <Compile Include="Assets\Scripts\CarController.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\CameraFollow.cs" />
-    <Compile Include="Assets\Scripts\CheckpointManager.cs" />
+    <Compile Include="Assets\Scripts\Checkpoint.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
