@@ -355,7 +355,9 @@
 "Assets/Scripts/CameraFollow.cs"
 "Assets/Scripts/CarController.cs"
 "Assets/Scripts/Checkpoint.cs"
+"Assets/Scripts/CountdownTimer.cs"
 "Assets/Scripts/GameManager.cs"
+"Assets/Scripts/GemFloating.cs"
 -langversion:9.0
 /deterministic
 /optimize+
