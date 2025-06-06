@@ -7,8 +7,7 @@ public class CountdownTimer : MonoBehaviour
 {
     public TextMeshProUGUI timerText;
     public float startTime;
-
-    private float currentTime;
+    public float currentTime;
     void Start()
     {
         currentTime = startTime;

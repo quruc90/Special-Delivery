@@ -5,6 +5,8 @@ using System;
 
 public class CarController : MonoBehaviour
 {
+    public bool playerControl = true;
+    public bool forcedHandbrake = false;
     public enum Axel
     {
         Front,
@@ -55,8 +57,8 @@ public class CarController : MonoBehaviour
 
     void GetInputs()
     {
-        moveInput = Input.GetAxis("Vertical");
-        steerInput = Input.GetAxis("Horizontal");
+        moveInput = Convert.ToInt32(playerControl) * Input.GetAxis("Vertical");
+        steerInput = Convert.ToInt32(playerControl) * Input.GetAxis("Horizontal");
     }
 
     void Move()
@@ -84,24 +86,12 @@ public class CarController : MonoBehaviour
 
     void Handbrake()
     {
-        if (Input.GetKey(KeyCode.Space))
+        foreach(var wheel in wheels)
         {
-            foreach(var wheel in wheels)
+            if(wheel.axel == Axel.Rear)
             {
-                if(wheel.axel == Axel.Rear)
-                {
-                    wheel.WheelCollider.brakeTorque = 600 * brakeAccel * Time.deltaTime;
-                }
-            }
-        }
-        else
-        {
-            foreach(var wheel in wheels)
-            {
-                if(wheel.axel == Axel.Rear)
-                {
-                    wheel.WheelCollider.brakeTorque = 0;
-                }
+                wheel.WheelCollider.brakeTorque =
+                    Convert.ToInt32(Input.GetKey(KeyCode.Space) || forcedHandbrake) * 600 * brakeAccel * Time.deltaTime;
             }
         }
     }
