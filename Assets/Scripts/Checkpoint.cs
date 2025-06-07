@@ -5,7 +5,8 @@ public class Checkpoint : MonoBehaviour
 {
     private bool isCoroutineStarted = false;
     public Rigidbody carRB;
-    public GameObject thisCheckpoint;
+    public GameObject cpVis;
+    public GameObject arrowTarget;
 
     private bool isCarStopped()
     {
@@ -47,7 +48,9 @@ public class Checkpoint : MonoBehaviour
             if (isCarStopped())
             {
                 Debug.Log("Delivered!");
-                thisCheckpoint.SetActive(false);
+                cpVis.SetActive(false);
+                arrowTarget.SetActive(false);
+                
             }
         }
         
