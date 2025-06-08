@@ -18,8 +18,7 @@ public class GameManager : MonoBehaviour
     {
         if (countdownTimer.currentTime == 0)
         {
-            carController.playerControl = false;
-            carController.forcedHandbrake = true;
+            carController.EnablePlayerControl(false);
         }
     }
 }

@@ -7,6 +7,13 @@ public class Checkpoint : MonoBehaviour
     public Rigidbody carRB;
     public GameObject cpVis;
     public GameObject arrowTarget;
+    public Score scoreScript;
+    public int scoreForCollecting = 10;
+
+    void Start()
+    {
+        scoreScript = GameObject.Find("Score").GetComponent<Score>();
+    }
 
     private bool isCarStopped()
     {
@@ -48,9 +55,10 @@ public class Checkpoint : MonoBehaviour
             if (isCarStopped())
             {
                 Debug.Log("Delivered!");
+                scoreScript.UpdateScore(scoreForCollecting);
                 cpVis.SetActive(false);
                 arrowTarget.SetActive(false);
-                
+                gameObject.SetActive(false);
             }
         }
         

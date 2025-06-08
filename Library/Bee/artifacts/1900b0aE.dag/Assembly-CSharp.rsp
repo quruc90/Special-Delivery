@@ -360,6 +360,8 @@
 "Assets/Scripts/CountdownTimer.cs"
 "Assets/Scripts/GameManager.cs"
 "Assets/Scripts/GemFloating.cs"
+"Assets/Scripts/PauseTimerOnAllCPsCollected.cs"
+"Assets/Scripts/Score.cs"
 "Assets/Scripts/StayOnCamera.cs"
 -langversion:9.0
 /deterministic

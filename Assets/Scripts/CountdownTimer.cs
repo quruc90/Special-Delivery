@@ -8,15 +8,17 @@ public class CountdownTimer : MonoBehaviour
     public TextMeshProUGUI timerText;
     public float startTime;
     public float currentTime;
+    private bool isPaused;
     void Start()
     {
         currentTime = startTime;
+        isPaused = false;
         StartCoroutine(Countdown());
     }
 
     IEnumerator Countdown()
     {
-        while (currentTime > 0f)
+        while (currentTime > 0f && !isPaused)
         {
             currentTime -= Time.deltaTime;
             currentTime = Mathf.Max(currentTime, 0f); // Clamp to 0
@@ -30,5 +32,10 @@ public class CountdownTimer : MonoBehaviour
 
             yield return null; // Wait one frame
         }
+    }
+
+    public void PauseTimer(bool pause)
+    {
+        isPaused = pause;
     }
 }

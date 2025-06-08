@@ -48,6 +48,16 @@ public class CarController : MonoBehaviour
         AnimatedWheels();
     }
 
+    public void EnablePlayerControl(bool enable)
+    {
+        if (!enable)
+        {
+            Debug.Log("Player control disabled!");
+        }
+        playerControl = enable;
+        forcedHandbrake = enable;
+    }
+
     void LateUpdate()
     {
         Move();

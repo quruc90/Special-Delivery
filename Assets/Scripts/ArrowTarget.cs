@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -30,6 +31,12 @@ public class ArrowTarget : MonoBehaviour
         Transform closest = null;
         float minDistance = Mathf.Infinity;
         Vector3 currentPosition = transform.position;
+
+        if (targets.Length == 0)
+        {
+            gameObject.SetActive(false);
+            return null;
+        }
 
         foreach (Transform target in targets)
         {
