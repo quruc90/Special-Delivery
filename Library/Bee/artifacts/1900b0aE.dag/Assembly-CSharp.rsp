@@ -360,6 +360,7 @@
 "Assets/Scripts/CountdownTimer.cs"
 "Assets/Scripts/GameManager.cs"
 "Assets/Scripts/GemFloating.cs"
+"Assets/Scripts/LevelClear.cs"
 "Assets/Scripts/PauseTimerOnAllCPsCollected.cs"
 "Assets/Scripts/Score.cs"
 "Assets/Scripts/StayOnCamera.cs"

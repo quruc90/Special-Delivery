@@ -17,7 +17,7 @@ public class Checkpoint : MonoBehaviour
 
     private bool isCarStopped()
     {
-        return carRB.velocity.magnitude < 1;
+        return carRB.velocity.magnitude < 0.1f;
     }
 
     void OnTriggerEnter(Collider other) {

@@ -35,6 +35,7 @@ public class CarController : MonoBehaviour
     float steerInput;
 
     private Rigidbody carRb;
+    private bool debugged = false;
 
     void Start()
     {
@@ -50,9 +51,10 @@ public class CarController : MonoBehaviour
 
     public void EnablePlayerControl(bool enable)
     {
-        if (!enable)
+        if (!enable && !debugged)
         {
             Debug.Log("Player control disabled!");
+            debugged = true;
         }
         playerControl = enable;
         forcedHandbrake = enable;

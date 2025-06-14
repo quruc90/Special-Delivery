@@ -75,6 +75,7 @@
     <Compile Include="Assets\Scripts\Checkpoint.cs" />
     <Compile Include="Assets\Scripts\StayOnCamera.cs" />
     <Compile Include="Assets\Scripts\ArrowTarget.cs" />
+    <Compile Include="Assets\Scripts\LevelClear.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

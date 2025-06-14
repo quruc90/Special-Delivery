@@ -8,11 +8,14 @@ public class PauseTimerOnAllCPsCollected : MonoBehaviour
     GameObject[] checkpoints;
     CountdownTimer countdownTimer;
     CarController carController;
+    LevelClear levelClear;
+    private bool debugged = false;
 
     void Start()
     {
         countdownTimer = GameObject.Find("Timer").GetComponent<CountdownTimer>();
         carController = GameObject.FindGameObjectWithTag("Player").GetComponent<CarController>();
+        levelClear = GameObject.Find("GameManager").GetComponent<LevelClear>();
     }
 
     // Update is called once per frame
@@ -24,6 +27,11 @@ public class PauseTimerOnAllCPsCollected : MonoBehaviour
         {
             countdownTimer.PauseTimer(true);
             carController.EnablePlayerControl(false);
+            if (!debugged)
+            {
+                levelClear.LevelWin();
+                debugged = true;    
+            }
         }
     }
 }

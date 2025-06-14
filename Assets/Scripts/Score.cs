@@ -31,4 +31,9 @@ public class Score : MonoBehaviour
         scoreNum = score;
         scoreText.text = score.ToString();
     }
+
+    public int GetScore()
+    {
+        return scoreNum;
+    }
 }
