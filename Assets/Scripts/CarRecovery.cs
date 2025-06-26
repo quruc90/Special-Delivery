@@ -33,13 +33,11 @@ public class CarRecovery : MonoBehaviour
 
     void SavePos()
     {
-        if (GetDot() > 0.4)
+        if (GetDot() > 0.2)
         {
             lastSavedPos = transform.position;
             lastSavedRot = transform.rotation;
         }
-
-        Debug.Log("Position saved at: " + lastSavedPos);
     }
 
     void ResetPos()

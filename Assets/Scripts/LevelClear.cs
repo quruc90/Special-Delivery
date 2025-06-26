@@ -20,6 +20,7 @@ public class LevelClear : MonoBehaviour
     [SerializeField] private TextMeshProUGUI continueText;
     private Score cpScore;
     private int timeBonus;
+    public GameObject gameManager;
 
     private float separatorWidth = 0;
     // Start is called before the first frame update
@@ -38,6 +39,7 @@ public class LevelClear : MonoBehaviour
         scoreTotalNum.gameObject.SetActive(false);
         scoreTotalNum.text = "0";
         continueText.gameObject.SetActive(false);
+        gameManager = GameObject.Find("GameManager");
 
         cpScore = GameObject.Find("Score").GetComponent<Score>();
     }
@@ -148,7 +150,6 @@ public class LevelClear : MonoBehaviour
         {
             yield return null;
         }
-        Debug.Log("Load next level (does nothing for now)");
-        yield return null;
+        gameManager.GetComponent<LoadNextLevel>().LoadNextScene();
     }
 }
