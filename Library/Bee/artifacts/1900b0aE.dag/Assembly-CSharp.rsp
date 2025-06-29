@@ -369,6 +369,7 @@
 "Assets/Scripts/PauseTimerOnAllCPsCollected.cs"
 "Assets/Scripts/Score.cs"
 "Assets/Scripts/StayOnCamera.cs"
+"Assets/Scripts/WheelSmokeManager.cs"
 -langversion:9.0
 /deterministic
 /optimize+

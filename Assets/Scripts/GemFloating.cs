@@ -17,6 +17,11 @@ public class GemFloating : MonoBehaviour
         transform.Rotate(0, 100 * Time.deltaTime, 0);
     }
 
+    public void SetFloatDuration(float duration)
+    {
+        floatDuration = duration;
+    }
+
     IEnumerator FloatPhaseUp()
     {
         Vector3 start = transform.position;

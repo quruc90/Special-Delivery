@@ -6,25 +6,28 @@ public class CamChange : MonoBehaviour
 {
     public Camera[] cameras;
     public Camera rearview;
+    public Transform audioListener;
+
     private int currentCam = 0;
 
     void Start()
     {
         ActivateCamera();
+        rearview.enabled = false;
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            cameras[currentCam].gameObject.SetActive(false);
-            rearview.gameObject.SetActive(true);
+            cameras[currentCam].enabled = false;
+            rearview.enabled = true;
         }
-        
+
         if (Input.GetKeyUp(KeyCode.Tab))
         {
-            cameras[currentCam].gameObject.SetActive(true);
-            rearview.gameObject.SetActive(false);
+            cameras[currentCam].enabled = true;
+            rearview.enabled = false;
         }
 
         if (Input.GetKeyDown(KeyCode.C))
@@ -32,13 +35,16 @@ public class CamChange : MonoBehaviour
             currentCam = (currentCam + 1) % cameras.Length;
             ActivateCamera();
         }
+
+        Camera activeCam = rearview.enabled ? rearview : cameras[currentCam];
+        audioListener.SetPositionAndRotation(activeCam.transform.position, activeCam.transform.rotation);
     }
 
     void ActivateCamera()
     {
         for (int i = 0; i < cameras.Length; i++)
         {
-            cameras[i].gameObject.SetActive(i == currentCam);
+            cameras[i].enabled = i == currentCam;
         }
     }
 }

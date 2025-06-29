@@ -2,15 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using TMPro;
 
 [Serializable]
-public class WheelColliders
+public class WheelColliders : IEnumerable<WheelCollider>
 {
     public WheelCollider FLWheel;
     public WheelCollider FRWheel;
     public WheelCollider RLWheel;
     public WheelCollider RRWheel;
+
+    public IEnumerator<WheelCollider> GetEnumerator()
+    {
+        yield return FLWheel;
+        yield return FRWheel;
+        yield return RLWheel;
+        yield return RRWheel;
+    }
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
 
 [Serializable]
@@ -21,14 +30,8 @@ public class WheelMeshes
     public MeshRenderer RLWheel;
     public MeshRenderer RRWheel;
 }
-[Serializable]
-public class WheelSmoke
-{
-    public ParticleSystem FLWheel;
-    public ParticleSystem FRWheel;
-    public ParticleSystem RLWheel;
-    public ParticleSystem RRWheel;
-}
+
+
 
 public class CarController : MonoBehaviour
 {
@@ -38,44 +41,42 @@ public class CarController : MonoBehaviour
     private float brakeInput;
     private float steerInput;
     public AnimationCurve steeringCurve;
-    public WheelSmoke wheelSmoke;
-    public GameObject smokeParticle;
 
     public float enginePower;
+    public float brakeFrontBias;
     public float brakeForce;
     float slipAngle;
     public float speed;
-    public bool isEngineOn;
 
+    /*
+    public bool isEngineOn;
     public float RPM;
     public float redLine;
     public float idleRPM;
+    */
 
     public Rigidbody carRb;
-    private bool debugged = false;
     public bool playerControl = true;
     public bool forcedHandbrake = false;
 
     void Start()
     {
         carRb = gameObject.GetComponent<Rigidbody>();
-        speed = carRb.velocity.magnitude;
-        CreateSmoke();
     }
 
     void Update()
     {
         GetInput();
         UpdateWheels();
+        speed = carRb.velocity.magnitude;
     }
 
     void LateUpdate()
     {
         ApplyTorque();
         ApplyBrake();
-        Handbrake();
-        CheckSlip();
         ApplySteering();
+        Handbrake();
     }
 
     void GetInput()
@@ -84,29 +85,30 @@ public class CarController : MonoBehaviour
         {
             throttleInput = Input.GetAxis("Vertical");
             steerInput = Input.GetAxis("Horizontal");
-        }
-        else
-        {
-            throttleInput = 0;
-            steerInput = 0;
-        }
-        slipAngle = Vector3.Angle(transform.forward, carRb.velocity - transform.forward);
-        if (slipAngle < 120f)
-        {
-            if (throttleInput < 0)
+            slipAngle = Vector3.Angle(transform.forward, carRb.velocity - transform.forward);
+            if (slipAngle < 120f)
             {
-                brakeInput = Mathf.Abs(throttleInput);
-                throttleInput = 0;
+                if (throttleInput < 0)
+                {
+                    brakeInput = Mathf.Abs(throttleInput);
+                    throttleInput = 0;
+                }
+                else
+                {
+                    brakeInput = 0;
+                }
             }
             else
             {
                 brakeInput = 0;
             }
         }
-        else
-        {
-            brakeInput = 0;
-        }
+    }
+
+    public void SetInput(float throttle, float steer)
+    {
+        throttleInput = throttle;
+        steerInput = steer;
     }
 
     void ApplyTorque()
@@ -117,96 +119,35 @@ public class CarController : MonoBehaviour
 
     void ApplyBrake()
     {
-        wheelColls.FRWheel.brakeTorque = brakeInput * brakeForce * 0.6f;
-        wheelColls.FLWheel.brakeTorque = brakeInput * brakeForce * 0.6f;
-        wheelColls.RRWheel.brakeTorque = brakeInput * brakeForce * 0.4f;
-        wheelColls.RLWheel.brakeTorque = brakeInput * brakeForce * 0.4f;
+        wheelColls.FRWheel.brakeTorque = brakeInput * brakeForce * brakeFrontBias;
+        wheelColls.FLWheel.brakeTorque = brakeInput * brakeForce * brakeFrontBias;
+        wheelColls.RRWheel.brakeTorque = brakeInput * brakeForce * (1-brakeFrontBias);
+        wheelColls.RLWheel.brakeTorque = brakeInput * brakeForce * (1-brakeFrontBias);
     }
 
     void ApplySteering()
     {
         float steeringAngle = steerInput * steeringCurve.Evaluate(speed);
-        steeringAngle += Vector3.SignedAngle(transform.forward, carRb.velocity + transform.forward, Vector3.up) * (3f/4f);
-        steeringAngle = Mathf.Clamp(steeringAngle, -20, 20);
+        if (Vector3.Dot(carRb.velocity, transform.forward) > 0.1f)
+            steeringAngle += Vector3.SignedAngle(transform.forward, carRb.velocity + transform.forward, Vector3.up) * (1f / 5f);
+        steeringAngle = Mathf.Clamp(steeringAngle, -60, 60);
         wheelColls.FRWheel.steerAngle = steeringAngle;
         wheelColls.FLWheel.steerAngle = steeringAngle;
     }
 
     void Handbrake()
     {
-        wheelColls.RRWheel.brakeTorque =
-            Convert.ToInt32(Input.GetKey(KeyCode.Space) || forcedHandbrake) * 1200 * brakeForce * Time.deltaTime;
-        wheelColls.RLWheel.brakeTorque =
-            Convert.ToInt32(Input.GetKey(KeyCode.Space) || forcedHandbrake) * 1200 * brakeForce * Time.deltaTime;
-    }
-
-    void CreateSmoke()
-    {
-        wheelSmoke.FRWheel
-            = Instantiate(smokeParticle, wheelColls.FRWheel.transform.position-Vector3.up*wheelColls.FRWheel.radius,
-            Quaternion.identity, wheelColls.FRWheel.transform)
-            .GetComponent<ParticleSystem>();
-        wheelSmoke.FLWheel
-            = Instantiate(smokeParticle, wheelColls.FLWheel.transform.position-Vector3.up*wheelColls.FLWheel.radius,
-            Quaternion.identity, wheelColls.FLWheel.transform)
-            .GetComponent<ParticleSystem>();
-        wheelSmoke.RLWheel
-            = Instantiate(smokeParticle, wheelColls.RLWheel.transform.position-Vector3.up*wheelColls.RLWheel.radius,
-            Quaternion.identity, wheelColls.RLWheel.transform)
-            .GetComponent<ParticleSystem>();
-        wheelSmoke.RRWheel
-            = Instantiate(smokeParticle, wheelColls.RRWheel.transform.position-Vector3.up*wheelColls.RRWheel.radius,
-            Quaternion.identity, wheelColls.RRWheel.transform)
-            .GetComponent<ParticleSystem>();
-    }
-
-    void CheckSlip()
-    {
-        WheelHit[] wheelHits = new WheelHit[4];
-        wheelColls.FRWheel.GetGroundHit(out wheelHits[0]);
-        wheelColls.FLWheel.GetGroundHit(out wheelHits[1]);
-        wheelColls.RRWheel.GetGroundHit(out wheelHits[2]);
-        wheelColls.RLWheel.GetGroundHit(out wheelHits[3]);
-
-        float slipAllowance = 0.7f;
-
-        if (Mathf.Abs(wheelHits[0].sidewaysSlip) + Mathf.Abs(wheelHits[0].forwardSlip) > slipAllowance)
+        List<WheelCollider> colls = new()
         {
-            wheelSmoke.FRWheel.Play();
-        }
-        else
+            wheelColls.RRWheel,
+            wheelColls.RLWheel
+        };
+        foreach (WheelCollider coll in colls)
         {
-            wheelSmoke.FRWheel.Stop();
-        }
-
-        if (Mathf.Abs(wheelHits[1].sidewaysSlip) + Mathf.Abs(wheelHits[1].forwardSlip) > slipAllowance)
-        {
-            wheelSmoke.FLWheel.Play();
-        }
-        else
-        {
-            wheelSmoke.FLWheel.Stop();
-        }
-
-        if (Mathf.Abs(wheelHits[2].sidewaysSlip) + Mathf.Abs(wheelHits[2].forwardSlip) > slipAllowance)
-        {
-            wheelSmoke.RRWheel.Play();
-        }
-        else
-        {
-            wheelSmoke.RRWheel.Stop();
-        }
-
-        if (Mathf.Abs(wheelHits[3].sidewaysSlip) + Mathf.Abs(wheelHits[3].forwardSlip) > slipAllowance)
-        {
-            wheelSmoke.RLWheel.Play();
-        }
-        else
-        {
-            wheelSmoke.RLWheel.Stop();
+            coll.brakeTorque = Convert.ToInt32((Input.GetKey(KeyCode.Space) && playerControl) || forcedHandbrake) * 1200 * brakeForce * Time.deltaTime;
         }
     }
-
+    
     void UpdateWheels()
     {
         UpdateWheel(wheelColls.FRWheel, wheelMeshes.FRWheel);
@@ -225,74 +166,12 @@ public class CarController : MonoBehaviour
 
     public void EnablePlayerControl(bool enable)
     {
-        if (!enable && !debugged)
-        {
-            Debug.Log("Player control disabled!");
-            debugged = true;
-        }
         playerControl = enable;
         forcedHandbrake = !enable;
+        if (!enable)
+        {
+            throttleInput = 0;
+            steerInput = 0;
+        }
     }
-    /*
-        void LateUpdate()
-        {
-            Move();
-            Steer();
-            Handbrake();
-        }
-
-        void GetInputs()
-        {
-            moveInput = Convert.ToInt32(playerControl) * Input.GetAxis("Vertical");
-            steerInput = Convert.ToInt32(playerControl) * Input.GetAxis("Horizontal");
-        }
-
-        void Move()
-        {
-            foreach(var wheel in wheels)
-            {
-                if(wheel.axel == Axel.Rear)
-                {
-                    wheel.WheelCollider.motorTorque = moveInput * 580 * maxAccel * Time.deltaTime;
-                }
-            }
-        }
-
-        void Steer()
-        {
-            foreach(var wheel in wheels)
-            {
-                if (wheel.axel == Axel.Front)
-                {
-                    var _steerAngle = steerInput * turnSens * maxSteerAngle;
-                    wheel.WheelCollider.steerAngle = Mathf.Lerp(wheel.WheelCollider.steerAngle, _steerAngle, 0.6f);
-                }
-            }
-        }
-
-        void Handbrake()
-        {
-            foreach(var wheel in wheels)
-            {
-                if(wheel.axel == Axel.Rear)
-                {
-                    wheel.WheelCollider.brakeTorque =
-                        Convert.ToInt32(Input.GetKey(KeyCode.Space) || forcedHandbrake) * 600 * brakeAccel * Time.deltaTime;
-                }
-            }
-        }
-
-        void AnimatedWheels()
-        {
-            foreach(var wheel in wheels)
-            {
-                Quaternion rot;
-                Vector3 pos;
-                wheel.WheelCollider.GetWorldPose(out pos, out rot);
-                wheel.wheelModel.transform.position = pos;
-                wheel.wheelModel.transform.rotation = rot;
-
-            }
-        }
-    */
 }

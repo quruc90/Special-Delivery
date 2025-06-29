@@ -21,7 +21,7 @@ public class StayOnCamera : MonoBehaviour
 
         arrow.transform.SetParent(currentCamera.gameObject.transform);
 
-        Vector3 screenPos = new Vector3(
+        Vector3 screenPos = new(
             screenPositionNormalized.x * Screen.width,
             screenPositionNormalized.y * Screen.height,
             distanceFromCamera

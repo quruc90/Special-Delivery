@@ -13,48 +13,35 @@ public class Checkpoint : MonoBehaviour
     void Start()
     {
         scoreScript = GameObject.Find("Score").GetComponent<Score>();
+        carRB = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
     }
 
-    private bool isCarStopped()
+    private bool IsCarStopped()
     {
-        return carRB.velocity.magnitude < 0.1f;
-    }
-
-    void OnTriggerEnter(Collider other) {
-        Debug.Log("Trigger entered.");
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        Debug.Log("Trigger exited");
+        return carRB.velocity.magnitude < 0.3f;
     }
 
     void OnTriggerStay(Collider other)
     {
-        if (isCarStopped())
+        if (IsCarStopped() && !isCoroutineStarted)
         {
-            if (!isCoroutineStarted)
-            {
-                Debug.Log("Delivering...");
-                StartCoroutine(ScoreCheckpoint());
-                isCoroutineStarted = true;
-            }
+            StartCoroutine(ScoreCheckpoint());
+            isCoroutineStarted = true;
         }
-        else if(isCoroutineStarted)
+        if (!IsCarStopped())
         {
-            Debug.Log("Interrupted! Stay still to deliver...");
+            StopCoroutine(ScoreCheckpoint());
             isCoroutineStarted = false;
         }
     }
 
     IEnumerator ScoreCheckpoint()
     {
-        while (isCarStopped())
+        while (IsCarStopped())
         {
             yield return new WaitForSeconds(1);
-            if (isCarStopped())
+            if (IsCarStopped())
             {
-                Debug.Log("Delivered!");
                 scoreScript.UpdateScore(scoreForCollecting);
                 cpVis.SetActive(false);
                 arrowTarget.SetActive(false);

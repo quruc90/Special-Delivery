@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Palmmedia.ReportGenerator.Core;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CarRecovery : MonoBehaviour
@@ -9,14 +10,14 @@ public class CarRecovery : MonoBehaviour
 
     private Vector3 lastSavedPos;
     private Quaternion lastSavedRot;
+    Rigidbody carRb;
 
-    // Start is called before the first frame update
     void Start()
     {
+        carRb = GetComponent<Rigidbody>();
         SavePos();
     }
 
-    // Update is called once per frame
     void Update()
     {
         float distanceTravelled = Vector3.Distance(transform.position, lastSavedPos);
@@ -25,34 +26,49 @@ public class CarRecovery : MonoBehaviour
             SavePos();
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && IsUpsideDown())
+        if (Input.GetKeyDown(KeyCode.R) && carRb.velocity.magnitude < 6f && GetComponent<CarController>().playerControl)
         {
-            ResetPos();
+            StartCoroutine(ResetPos());
+        }
+
+        if (IsUpsideDown())
+        {
+            StartCoroutine(AutoReset());
         }
     }
 
     void SavePos()
     {
-        if (GetDot() > 0.2)
+        if (GetDot() > 0.9)
         {
-            lastSavedPos = transform.position;
+            lastSavedPos = transform.position + new Vector3(0,0.2f,0);
             lastSavedRot = transform.rotation;
         }
     }
 
-    void ResetPos()
+    IEnumerator AutoReset()
     {
+        yield return new WaitForSeconds(3);
+        if (IsUpsideDown())
+        {
+            StartCoroutine(ResetPos());
+        }
+        yield return null;
+    }
+
+    IEnumerator ResetPos()
+    {
+        yield return new WaitForSeconds(1);
         transform.position = lastSavedPos;
         transform.rotation = lastSavedRot;
 
-        CarController cc = GetComponent<CarController>();
-        cc.carRb.velocity = new Vector3(0, 0, 0);
+        carRb.velocity = new Vector3(0, 0, 0);
+        yield return null;
     }
 
     bool IsUpsideDown()
     {
-
-        return GetDot() < 0;
+        return GetDot() < 0.2;
     }
 
     public float GetDot()
