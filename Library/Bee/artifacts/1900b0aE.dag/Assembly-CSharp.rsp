@@ -356,6 +356,7 @@
 "Assets/Scripts/ButtonPlay.cs"
 "Assets/Scripts/CamChange.cs"
 "Assets/Scripts/CameraFollow.cs"
+"Assets/Scripts/CameraSpectateAI.cs"
 "Assets/Scripts/CarAIController.cs"
 "Assets/Scripts/CarController.cs"
 "Assets/Scripts/CarRecovery.cs"

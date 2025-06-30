@@ -41,6 +41,8 @@ public class CarController : MonoBehaviour
     private float brakeInput;
     private float steerInput;
     public AnimationCurve steeringCurve;
+    private float targetSteerAngle = 0;
+    private float steerSpeed = 5f;
 
     public float enginePower;
     public float brakeFrontBias;
@@ -131,8 +133,8 @@ public class CarController : MonoBehaviour
         if (Vector3.Dot(carRb.velocity, transform.forward) > 0.1f)
             steeringAngle += Vector3.SignedAngle(transform.forward, carRb.velocity + transform.forward, Vector3.up) * (1f / 5f);
         steeringAngle = Mathf.Clamp(steeringAngle, -60, 60);
-        wheelColls.FRWheel.steerAngle = steeringAngle;
-        wheelColls.FLWheel.steerAngle = steeringAngle;
+        wheelColls.FRWheel.steerAngle = Mathf.Lerp(wheelColls.FLWheel.steerAngle, steeringAngle, Time.deltaTime * steerSpeed);
+        wheelColls.FLWheel.steerAngle = Mathf.Lerp(wheelColls.FLWheel.steerAngle, steeringAngle, Time.deltaTime * steerSpeed);
     }
 
     void Handbrake()

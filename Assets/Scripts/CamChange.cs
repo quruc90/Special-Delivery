@@ -8,7 +8,7 @@ public class CamChange : MonoBehaviour
     public Camera rearview;
     public Transform audioListener;
 
-    private int currentCam = 0;
+    public int currentCam = 0;
 
     void Start()
     {
@@ -40,7 +40,7 @@ public class CamChange : MonoBehaviour
         audioListener.SetPositionAndRotation(activeCam.transform.position, activeCam.transform.rotation);
     }
 
-    void ActivateCamera()
+    public void ActivateCamera()
     {
         for (int i = 0; i < cameras.Length; i++)
         {
