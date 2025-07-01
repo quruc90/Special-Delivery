@@ -26,6 +26,14 @@ public class LevelClear : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Disable();
+        gameManager = GameObject.Find("GameManager");
+
+        cpScore = GameObject.Find("ScoreManager").GetComponent<Score>();
+    }
+
+    void Disable()
+    {
         levelClearText.gameObject.SetActive(false);
         separator.gameObject.transform.localScale = new Vector3(0, 0.1f, 1);
         scoreCPLabel.gameObject.SetActive(false);
@@ -39,9 +47,6 @@ public class LevelClear : MonoBehaviour
         scoreTotalNum.gameObject.SetActive(false);
         scoreTotalNum.text = "0";
         continueText.gameObject.SetActive(false);
-        gameManager = GameObject.Find("GameManager");
-
-        cpScore = GameObject.Find("Score").GetComponent<Score>();
     }
 
     public void LevelWin()
@@ -150,6 +155,8 @@ public class LevelClear : MonoBehaviour
         {
             yield return null;
         }
+        cpScore.UpdateScore(int.Parse(scoreTimeNum.text));
+        Disable();
         gameManager.GetComponent<LoadNextLevel>().LoadNextScene();
     }
 }

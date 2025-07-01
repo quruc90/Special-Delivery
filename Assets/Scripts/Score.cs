@@ -1,35 +1,52 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Score : MonoBehaviour
 {
-    Checkpoint[] checkpoints;
-    private TextMeshProUGUI scoreText;
-    private int scoreNum;
+    public TextMeshProUGUI scoreText;
+    public GameObject scoreUI;
+    public static Score Instance;
+    public int scoreNum;
+    private static int scoreAtLevelStart;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
-        scoreText = gameObject.GetComponent<TextMeshProUGUI>();
-        SetScore(0);
-        checkpoints = GameObject.FindGameObjectsWithTag("Checkpoint")
-            .Select(obj => obj.GetComponent<Checkpoint>())
-            .ToArray();
+        scoreAtLevelStart = Instance.GetScore();
+    }
+
+    void Update()
+    {
+        scoreText.text = Instance.scoreNum.ToString();
+        Debug.Log(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ResetScoreOnLevelRestart()
+    {
+        scoreNum = scoreAtLevelStart;
     }
 
     public void UpdateScore(int score)
     {
         scoreNum += score;
-        scoreText.text = scoreNum.ToString();
     }
 
-    void SetScore(int score)
+    public void SetScore(int score)
     {
         scoreNum = score;
-        scoreText.text = score.ToString();
     }
 
     public int GetScore()

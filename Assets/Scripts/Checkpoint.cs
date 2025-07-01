@@ -12,7 +12,7 @@ public class Checkpoint : MonoBehaviour
 
     void Start()
     {
-        scoreScript = GameObject.Find("Score").GetComponent<Score>();
+        scoreScript = GameObject.Find("ScoreManager").GetComponent<Score>();
         carRB = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
     }
 
