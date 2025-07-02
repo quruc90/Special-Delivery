@@ -368,8 +368,9 @@
 "Assets/Scripts/LoadNextLevel.cs"
 "Assets/Scripts/PauseMenu.cs"
 "Assets/Scripts/PauseTimerOnAllCPsCollected.cs"
-"Assets/Scripts/PersistOnLoad.cs"
 "Assets/Scripts/Score.cs"
+"Assets/Scripts/ScoreOnLevel1.cs"
+"Assets/Scripts/ScoreText.cs"
 "Assets/Scripts/StayOnCamera.cs"
 "Assets/Scripts/WheelSmokeManager.cs"
 -langversion:9.0

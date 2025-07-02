@@ -4,49 +4,34 @@ using UnityEngine.SceneManagement;
 
 public class Score : MonoBehaviour
 {
-    public TextMeshProUGUI scoreText;
-    public GameObject scoreUI;
-    public static Score Instance;
     public int scoreNum;
-    private static int scoreAtLevelStart;
-
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+    private int scoreAtLevelStart;
 
     void Start()
     {
-        scoreAtLevelStart = Instance.GetScore();
+        scoreNum = PlayerPrefs.GetInt("Score");
+        scoreAtLevelStart = GetScore();
     }
 
     void Update()
     {
-        scoreText.text = Instance.scoreNum.ToString();
-        Debug.Log(SceneManager.GetActiveScene().buildIndex);
+        Debug.Log("scoreNum: " + scoreNum.ToString());
     }
 
     public void ResetScoreOnLevelRestart()
     {
-        scoreNum = scoreAtLevelStart;
+        SetScore(scoreAtLevelStart);
     }
 
     public void UpdateScore(int score)
     {
-        scoreNum += score;
+        SetScore(scoreNum + score);
     }
 
     public void SetScore(int score)
     {
         scoreNum = score;
+        PlayerPrefs.SetInt("Score", scoreNum);
     }
 
     public int GetScore()

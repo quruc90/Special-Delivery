@@ -65,14 +65,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\CameraSpectateAI.cs" />
+    <Compile Include="Assets\Scripts\ScoreOnLevel1.cs" />
     <Compile Include="Assets\Scripts\LoadNextLevel.cs" />
+    <Compile Include="Assets\Scripts\ScoreText.cs" />
     <Compile Include="Assets\Scripts\CamChange.cs" />
     <Compile Include="Assets\Scripts\GemFloating.cs" />
     <Compile Include="Assets\Scripts\CarController.cs" />
     <Compile Include="Assets\Scripts\WheelSmokeManager.cs" />
     <Compile Include="Assets\Scripts\CarRecovery.cs" />
     <Compile Include="Assets\Scripts\PauseTimerOnAllCPsCollected.cs" />
-    <Compile Include="Assets\Scripts\PersistOnLoad.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Score.cs" />
